@@ -14,11 +14,11 @@ class Conversor:
         self.pies = StringVar()
         self.metros = StringVar()
 
-        mainFrame = ttk.Frame(raiz)
+        mainFrame = ttk.Frame(raiz, padding="3 3 12 12")#izquierda arriba derecha abajo
         mainFrame.grid(column=0, row=0)
         
-        piesEntry = ttk.Entry(mainFrame, textvariable=self.pies)
-        piesEntry.grid(column=1, row=0)
+        piesEntry = ttk.Entry(mainFrame, textvariable=self.pies, width=7)
+        piesEntry.grid(column=1, row=0, sticky=(W, E))
 
         ttk.Label(mainFrame, text="pies").grid(column=2, row=0)
         
@@ -29,20 +29,24 @@ class Conversor:
         ttk.Label(mainFrame, text="metros").grid(column=2, row=1)
 
         ttk.Button(mainFrame, text="Calcular", command=self.calcular).grid(column=2, row=2)
-
+        piesEntry.focus()
         #Hacer la operacion presionando <enter>
         raiz.bind("<Return>", self.calcular)
 
     def calcular(self, *args):
          print("Boton presionado")  
          piesUsuario = self.pies.get() #siempre devuelve una cadena.
-         
+         print("Pies ingresados: ", piesUsuario)   
+
+         try:
+            piesFlotante =float(piesUsuario)#con el float convierte la cadena a flotante.  
+            metros = piesFlotante / 3.281 
+            print("Metros: ", metros)
+            self.metros.set(metros)
+         except ValueError: 
+            print("No es un dato valido.")
+            self.pies.set("")
         
-         print("Pies ingresados: ",self.pies.get())   
-         piesFlotante =float(piesUsuario)#con el float convierte la cadena a flotante.  
-         metros = piesFlotante / 3.281 
-         print("Metros: ", metros)
-         self.metros.set(metros)
 
 
 if __name__=="__main__":
